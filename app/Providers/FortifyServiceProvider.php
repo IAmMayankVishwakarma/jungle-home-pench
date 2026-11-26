@@ -62,7 +62,7 @@ class FortifyServiceProvider extends ServiceProvider
 });
 
 // Custom Blade views
-Fortify::loginView(fn () => view('Auth.login'));
+Fortify::loginView(fn () => view('admin.pages.login'));
 Fortify::registerView(fn () => view('Auth.register'));
 
 Fortify::requestPasswordResetLinkView(

@@ -1,25 +1,25 @@
-@if (session('error'))
+{{-- @if (session('error'))
     <div style="color: red; margin-bottom: 15px;">
         {{ session('error') }}
     </div>
-@endif
+@endif --}}
 
-@if ($errors->any())
+{{-- @if ($errors->any())
     <div style="color: red;">
         @foreach ($errors->all() as $error)
             <p>{{ $error }}</p>
         @endforeach
     </div>
-@endif
+@endif --}}
 
 
 <h2>User Login</h2>
 
-@if ($errors->any())
+{{-- @if ($errors->any())
     @foreach ($errors->all() as $error)
         <p style="color:red">{{ $error }}</p>
     @endforeach
-@endif
+@endif --}}
 
 <form method="POST" action="{{ route('login') }}">
     @csrf
