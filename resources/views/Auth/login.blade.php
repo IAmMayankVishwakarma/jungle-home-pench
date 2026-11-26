@@ -1,3 +1,18 @@
+@if (session('error'))
+    <div style="color: red; margin-bottom: 15px;">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if ($errors->any())
+    <div style="color: red;">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
+
+
 <h2>User Login</h2>
 
 @if ($errors->any())
@@ -39,3 +54,9 @@
     Don't have an account?
     <a class="btn btn-primary" href="{{ route('register') }}">Sign up</a>
 </p>
+
+<div>
+    <a href="{{ route('google.redirect') }}">
+        Continue with Google
+    </a>
+</div>
