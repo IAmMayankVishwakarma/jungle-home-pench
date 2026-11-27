@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserRoleController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\VerifyEmailLinkController;
 
 Route::get('/', function () {return view('pages.index');})->name('home');
 Route::get('/about', function () {return view('pages.about');})->name('about');
@@ -90,6 +91,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
 });
+
+Route::middleware(['auth', 'verified', 'password.confirm'])->group(function () {
+
+    Route::view(
+        '/settings/two-factor',
+        'Auth.two-factor-settings'
+    )->name('two-factor.settings');
+
+});
+
+Route::get('/email/verify/{id}/{hash}', VerifyEmailLinkController::class)
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 // fallback route for any undefined routes
 Route::fallback(function () {

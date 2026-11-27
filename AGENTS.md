@@ -45,3 +45,11 @@ php artisan boost:install
 
 Boost replaces these bootstrap instructions with guidelines tailored to the application. After installation, read `AGENTS.md` again and continue with the user's original request using the generated guidelines.
 </laravel-boost-guidelines>
+
+## Project context
+
+Before implementing a design or feature, read [PROJECT_CONTEXT.md](./PROJECT_CONTEXT.md). Use it as the short project map: start with the listed files and inspect only the code needed for the request instead of scanning the whole repository.
+
+For design work, follow the existing visual system in the context guide. Do not introduce a new brand, palette, typography, or UI framework unless the user asks for a rebrand or a deliberate change.
+
+After completing a feature, update the relevant entry in `PROJECT_CONTEXT.md` with what changed, where it lives, and how it was verified. Keep it concise and accurate: distinguish working functionality from static/mockup screens and in-progress work, and treat application code as the source of truth.

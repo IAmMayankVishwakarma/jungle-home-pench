@@ -9,32 +9,36 @@
             <h1>Welcome back</h1>
 
             <p>Sign in to manage your resort.</p>
+            @if (session('status') === 'verification-link-verified')
+                <div class="alert alert-success" role="status">
+                    Your email has been verified. You can now sign in.
+                </div>
+            @endif
             @if (session('error'))
-                <div style="color: red; margin-bottom: 15px;">
+                <div class="alert alert-danger" role="alert">
                     {{ session('error') }}
                 </div>
             @endif
             @if ($errors->any())
-                <div style="color: red;">
+                <div class="alert alert-danger" role="alert">
                     @foreach ($errors->all() as $error)
                         <p>{{ $error }}</p>
                     @endforeach
                 </div>
             @endif
 
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <p style="color:red">{{ $error }}</p>
-                @endforeach
-            @endif
-
-            <form class="needs-validation" novalidate action="{{ route('login') }}"><label class="form-label"
-                    for="le">Email</label><input class="form-control mb-3" id="le" type="email"
-                    required><label class="form-label" for="lp">Password</label><input class="form-control mb-3"
-                    id="lp" type="password" required>
+            <form class="needs-validation" method="POST" action="{{ route('login.store') }}" novalidate>
+                @csrf
+                <label class="form-label" for="le">Email</label>
+                <input class="form-control mb-3" id="le" type="email" name="email"
+                    value="{{ old('email') }}" autocomplete="username" required autofocus>
+                <label class="form-label" for="lp">Password</label>
+                <input class="form-control mb-3" id="lp" type="password" name="password"
+                    autocomplete="current-password" required>
                 <div class="d-flex justify-content-between mb-4">
-                    <div class="form-check"><input class="form-check-input" type="checkbox" id="rm"><label
-                            class="form-check-label" for="rm">Remember me</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" value="1" id="rm">
+                        <label class="form-check-label" for="rm">Remember me</label>
                     </div>
                     <a href="{{ route('password.request') }}">Forgot
                         password?</a>

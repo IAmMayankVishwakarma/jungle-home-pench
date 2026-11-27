@@ -74,5 +74,13 @@ Fortify::resetPasswordView(
 );
 
 Fortify::verifyEmailView(fn () => view('Auth.verify-email'));
-    }
+
+Fortify::twoFactorChallengeView(
+    fn () => view('Auth.two-factor-challenge')
+);
+
+Fortify::confirmPasswordView(
+    fn () => view('Auth.confirm-password')
+);
+}
 }

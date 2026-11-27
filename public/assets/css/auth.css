@@ -1,0 +1,55 @@
+/* Patara — auth.css (signup / login pages). Load after style.css */
+.au-sec{padding:90px 0 100px;background:var(--bg,#f5efee)}
+.au-card{display:grid;grid-template-columns:5fr 6fr;max-width:1020px;margin:0 auto;background:#fff;box-shadow:0 20px 60px rgba(40,28,18,.08)}
+.au-side{position:relative;color:#fff;min-height:100%;overflow:hidden;display:flex;align-items:flex-end;padding:40px;isolation:isolate}
+.au-side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.au-side:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(15,12,10,.35),rgba(15,12,10,.82));z-index:-1}
+.au-side h2{color:#fff;font-size:clamp(26px,2.6vw,34px);margin:0 0 14px}
+.au-side p{color:rgba(255,255,255,.85);font-size:13.5px;margin-bottom:18px}
+.au-perks{list-style:none;padding:0;margin:0;font-size:13.5px}
+.au-perks li{display:flex;gap:10px;align-items:center;margin-bottom:8px;color:#fff;font-weight:400}
+.au-perks .ic{color:var(--gold,#b08d57);flex:none}
+.au-form{padding:52px 48px}
+.au-form h2{font-size:clamp(28px,3vw,38px);margin:0 0 6px}
+.au-form>p{margin-bottom:28px;font-size:14px}
+.au-field{position:relative;margin-bottom:20px}
+.au-field label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink,#1d1b1a);font-weight:400;margin-bottom:4px}
+.au-field input[type=text],.au-field input[type=email],.au-field input[type=tel],.au-field input[type=password]{width:100%;border:0;border-bottom:1px solid #ddd2c9;background:transparent;padding:9px 38px 9px 0;font:inherit;font-size:14px;color:var(--ink,#1d1b1a);border-radius:0;transition:border-color .2s}
+.au-field input:focus{outline:0;border-color:var(--gold,#b08d57)}
+.au-field input::placeholder{color:#a79d96}
+.au-field.is-invalid input{border-color:#a85a4f}
+.au-err{display:none;color:#a85a4f;font-size:12px;margin-top:4px}
+.au-field.is-invalid .au-err,.au-err.is-server{display:block}
+.au-pw-btn{position:absolute;right:0;bottom:7px;background:none;border:0;color:#8f857e;padding:4px;display:flex}
+.au-pw-btn:hover{color:var(--gold,#b08d57)}
+.au-meter{display:flex;gap:4px;margin-top:8px}.au-meter i{flex:1;height:3px;background:#e7ddd4;transition:background .25s}
+.au-meter[data-s="1"] i:nth-child(-n+1){background:#a85a4f}.au-meter[data-s="2"] i:nth-child(-n+2){background:#e0a64a}.au-meter[data-s="3"] i:nth-child(-n+3){background:#b08d57}.au-meter[data-s="4"] i{background:#4f8a6b}
+.au-meter-t{font-size:11.5px;margin-top:4px;min-height:16px}
+.au-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:6px 0 24px}
+.au-check input{margin-top:5px;accent-color:var(--gold,#b08d57);flex:none}
+.au-check a{color:var(--gold,#b08d57);border-bottom:1px solid currentColor}
+.au-btn{width:100%;display:block;text-align:center}
+.au-alt{text-align:center;margin-top:22px;font-size:13.5px}
+.au-alt a{color:var(--gold,#b08d57);font-weight:400;border-bottom:1px solid currentColor}
+.au-alert{background:#f6e0dc;color:#8e3b2e;border-left:3px solid #a85a4f;padding:10px 14px;font-size:13px;margin-bottom:22px}
+@media(max-width:991px){.au-card{grid-template-columns:1fr}.au-side{min-height:260px;padding:28px}.au-form{padding:36px 24px}.au-sec{padding:60px 0 70px}}
+.ve-hero{min-height:clamp(280px,34vw,380px)}
+.ve-sec{padding:clamp(52px,8vw,90px) 0;background:var(--bg,#f5efee)}
+.ve-card{max-width:680px;margin:0 auto;padding:clamp(30px,5vw,58px);background:#fff;border-top:2px solid var(--gold,#b08d57);box-shadow:0 20px 60px rgba(40,28,18,.08);text-align:center}
+.ve-icon{width:68px;height:68px;margin:0 auto 24px;border:1px solid #e8dccb;border-radius:50%;background:#f8f4ed;color:var(--gold,#b08d57);display:grid;place-items:center}
+.ve-icon svg{width:27px;height:27px}
+.ve-eyebrow{margin:0 0 8px;color:var(--gold,#b08d57);font-size:10px;font-weight:400;letter-spacing:.2em;text-transform:uppercase}
+.ve-card h2{margin:0 0 12px;font-size:clamp(28px,4vw,40px)}
+.ve-copy{max-width:470px;margin:0 auto 24px;font-size:14px}
+.ve-notice,.ve-alert{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;margin:0 0 20px;text-align:left;font-size:13px}
+.ve-notice{border-left:3px solid #4f8a6b;background:#e3f1ea;color:#2f6b4d}
+.ve-notice svg{width:16px;height:16px;flex:none}
+.ve-notice p{margin:0}
+.ve-alert{border-left:3px solid #a85a4f;background:#f6e0dc;color:#8e3b2e}
+.ve-actions{display:flex;flex-direction:column;align-items:center;gap:14px}
+.ve-actions form{display:flex;width:100%;justify-content:center}
+.ve-actions .btn-pt{width:100%;max-width:320px}
+.ve-logout{padding:4px 8px;border:0;background:transparent;color:var(--text,#5b5654);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.ve-logout:hover{color:var(--gold-d,#9a7a49)}
+.ve-logout:focus-visible{outline:2px solid var(--gold,#b08d57);outline-offset:3px}
+.ve-footnote{margin:22px 0 0;color:#8f857e;font-size:12px}
