@@ -40,14 +40,13 @@
                         Admin</small></span></button>
                     
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{{ url('admin/settings') }}">Profile &amp; settings</a></li>
+                <li><a class="dropdown-item" href="{{ url('/settings/two-factor') }}">Profile &amp; settings</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
                 <li>
                  <form method="POST" action="{{ route('logout') }}">
     @csrf
-     {{-- <a class="dropdown-item" href="#">Logout</a> --}}
     <button class="dropdown-item" type="submit">Logout</button>
 </form>
 

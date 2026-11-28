@@ -5,7 +5,7 @@ Short, maintained map for future design and feature work. Verify referenced code
 ## Application
 
 - Laravel 13 / PHP 8.3, Blade views, Laravel Fortify, Socialite, and Eloquent.
-- `routes/web.php` defines the public pages, Google OAuth, verified dashboard, and admin RBAC routes. Fortify registers the authentication routes.
+- `routes/web.php` defines public pages. `routes/admin.php`, `routes/google.php`, and `routes/booking.php` separate admin, OAuth, and booking route registrations; Fortify registers the authentication routes.
 - The main site layout is `resources/views/layouts/app.blade.php`. It loads Bootstrap 5.3.3 and `public/assets/css/style.css` / `public/assets/js/main.js` directly.
 - Admin layouts and styles are under `resources/views/admin/` and `public/assets/css/admin.css`.
 - `resources/css/app.css` and `resources/js/app.js` exist for the Vite pipeline; check actual layout usage before choosing them for a change.
@@ -25,10 +25,12 @@ The current public site is styled as a boutique luxury resort:
 | Area | Current behavior | Main implementation |
 | --- | --- | --- |
 | Public resort pages | Home, about, rooms, room details, services, restaurant, gallery, FAQ, cart, coming soon, blog, and contact render Blade pages. | `routes/web.php`, `resources/views/pages/` |
+| Booking routes | Admin bookings and availability calendar routes are separated in `routes/booking.php`; forms/views remain static until booking models and submission flows are implemented. | `routes/booking.php`, `resources/views/admin/pages/bookings.blade.php`, `resources/views/admin/pages/calendar.blade.php` |
 | Booking UI | Date/guest booking forms and room cards appear in the public templates; no booking submission route is currently registered. Treat them as presentation until a backend flow is implemented. | `resources/views/pages/index.blade.php`, `resources/views/partials/booking.blade.php` |
 | Authentication | Fortify-backed login, registration, password reset, email verification, profile/password actions, two-factor and passkey support are configured. Login validates credentials before a 2FA challenge; 2FA enrollment requires recent password confirmation and is covered end-to-end; signed verification links can verify without an active session and then return to login. Verification, password confirmation, 2FA settings, and challenge screens use the resort auth styling. | `app/Providers/FortifyServiceProvider.php`, `app/Http/Controllers/Auth/VerifyEmailLinkController.php`, `app/Actions/Fortify/`, `config/fortify.php`, `routes/web.php`, `resources/views/Auth/`, `resources/views/admin/pages/login.blade.php`, `tests/Feature/Auth/` |
 | Google sign-in/linking | OAuth sign-in and linking are handled by a custom Socialite controller; linking is available to authenticated, verified users. | `app/Http/Controllers/Auth/GoogleController.php`, `routes/web.php` |
 | Roles and permissions | Users have many-to-many roles and permissions; admin routes support role/permission management and assigning roles to users. | `app/Models/User.php`, `app/Models/Role.php`, `app/Models/Permission.php`, `app/Http/Controllers/Admin/`, `docs/RBAC.md` |
+| Room inventory | Room types, amenities, features, images, physical rooms, generation, and status management use the admin module. The default amenity/feature catalog is seeded by `RoomCatalogSeeder`. | `routes/admin.php`, `app/Models/Room/`, `app/Services/`, `database/seeders/RoomCatalogSeeder.php`, `resources/views/admin/room-types/`, `resources/views/admin/accommodations/`, `docs/ROOM_INVENTORY.md` |
 | Admin screens | Dashboard, bookings, calendar, guests, housekeeping, payments, reports, reviews, rooms, services, and settings Blade screens exist. Do not assume each screen has working routes or persistence; confirm route/controller/model support before extending one as functionality. | `resources/views/admin/`, `routes/web.php` |
 
 ## Working conventions

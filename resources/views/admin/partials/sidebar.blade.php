@@ -15,7 +15,7 @@
                         </svg><span>Dashboard</span></a></li>
             @can('view bookings')
             <li><a class="ad-nav__a {{ ($active ?? '') == 'bookings' ? 'active' : '' }}"
-                    href="{{ url('admin/bookings') }}"><svg class="ic " width="18" height="18"
+                    href="{{ route('admin.bookings.index') }}"><svg class="ic " width="18" height="18"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <rect x="3" y="5" width="18" height="16" rx="1" />
@@ -24,14 +24,14 @@
         @endcan
         @can('view bookings')
         <li><a class="ad-nav__a {{ ($active ?? '') == 'calendar' ? 'active' : '' }}"
-                href="{{ url('admin/calendar') }}"><svg class="ic " width="18" height="18"
+                href="{{ route('admin.calendar.index') }}"><svg class="ic " width="18" height="18"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M3 18V8h18v10M3 14h18M6 11h5v3H6zM13 11h5v3h-5z" />
                 </svg><span>Availability Calendar</span></a></li>
     @endcan
     @can('manage rooms')
-    <li><a class="ad-nav__a {{ ($active ?? '') == 'rooms' ? 'active' : '' }}" href="{{ url('admin/rooms') }}"><svg
+    <li><a class="ad-nav__a {{ ($active ?? '') == 'rooms' ? 'active' : '' }}" href="{{ route('admin.room-types.index') }}"><svg
                 class="ic " width="18" height="18" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
                 aria-hidden="true">
