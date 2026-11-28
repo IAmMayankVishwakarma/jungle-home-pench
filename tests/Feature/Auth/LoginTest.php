@@ -31,6 +31,27 @@ it('authenticates a user with valid email and password', function () {
     $this->assertAuthenticatedAs($user);
 });
 
+it('validates the password before presenting a two-factor challenge', function () {
+    $user = User::factory()->create([
+        'email' => 'two-factor@example.test',
+        'password' => 'correct-password',
+    ]);
+
+    $user->forceFill([
+        'two_factor_secret' => encrypt('JBSWY3DPEHPK3PXP'),
+        'two_factor_recovery_codes' => encrypt(json_encode(['known-recovery-code'])),
+        'two_factor_confirmed_at' => now(),
+    ])->save();
+
+    $this->from(route('login'))->post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])->assertRedirect(route('login'))
+        ->assertSessionHasErrors('email');
+
+    $this->assertGuest();
+});
+
 it('authenticates a two-factor user with a recovery code after password login', function () {
     $user = User::factory()->create([
         'email' => 'two-factor@example.test',
@@ -51,8 +72,11 @@ it('authenticates a two-factor user with a recovery code after password login', 
 
     $this->get(route('two-factor.login'))
         ->assertOk()
+        ->assertSee('tfa-challenge', false)
+        ->assertSee('assets/css/auth.css')
         ->assertSee('name="code"', false)
-        ->assertSee('name="recovery_code"', false);
+        ->assertSee('name="recovery_code"', false)
+        ->assertSee('wait for the code to refresh');
 
     $this->post(route('two-factor.login.store'), [
         'recovery_code' => $recoveryCode,

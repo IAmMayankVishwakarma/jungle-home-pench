@@ -10,6 +10,7 @@ it('confirms two-factor enrollment before requiring a code on later logins', fun
     $user = User::factory()->create([
         'password' => 'correct-password',
     ]);
+    $google2fa = app(Google2FA::class);
 
     $this->actingAs($user)
         ->get(route('two-factor.settings'))
@@ -17,13 +18,19 @@ it('confirms two-factor enrollment before requiring a code on later logins', fun
 
     $this->get(route('password.confirm'))
         ->assertOk()
-        ->assertSee('name="password"', false);
+        ->assertSee('name="password"', false)
+        ->assertSee("Verify it's you", false)
+        ->assertSee('assets/css/auth.css');
 
     $this->post(route('password.confirm.store'), [
         'password' => 'correct-password',
     ])->assertRedirect(route('two-factor.settings'));
 
-    $this->get(route('two-factor.settings'))->assertOk();
+    $this->get(route('two-factor.settings'))
+        ->assertOk()
+        ->assertSee('Two-factor authentication is off')
+        ->assertSee('action="'.route('two-factor.enable').'"', false)
+        ->assertSee('assets/css/auth.css');
 
     $this->post(route('two-factor.enable'))->assertRedirect();
 
@@ -31,14 +38,26 @@ it('confirms two-factor enrollment before requiring a code on later logins', fun
     expect($user->two_factor_secret)->not->toBeNull()
         ->and($user->two_factor_confirmed_at)->toBeNull();
 
+    $this->get(route('two-factor.settings'))
+        ->assertOk()
+        ->assertSee('Finish setting up your authenticator')
+        ->assertSee('<svg', false)
+        ->assertSee('name="code"', false);
+
     $secret = decrypt($user->two_factor_secret);
-    $code = app(Google2FA::class)->getCurrentOtp($secret);
+    $confirmationCode = $google2fa->oathTotp($secret, $google2fa->getTimestamp() - 1);
 
     $this->post(route('two-factor.confirm'), [
-        'code' => $code,
+        'code' => $confirmationCode,
     ])->assertRedirect();
 
     expect($user->fresh()->two_factor_confirmed_at)->not->toBeNull();
+
+    $this->get(route('two-factor.settings'))
+        ->assertOk()
+        ->assertSee('Two-factor authentication is on')
+        ->assertSee('Recovery codes')
+        ->assertSee('action="'.route('two-factor.disable').'"', false);
 
     $this->post(route('logout'));
 
@@ -48,7 +67,7 @@ it('confirms two-factor enrollment before requiring a code on later logins', fun
     ])->assertRedirect(route('two-factor.login'));
 
     $this->post(route('two-factor.login.store'), [
-        'code' => app(Google2FA::class)->getCurrentOtp($secret),
+        'code' => $google2fa->getCurrentOtp($secret),
     ])->assertRedirect(route('dashboard'));
 
     $this->assertAuthenticatedAs($user);
